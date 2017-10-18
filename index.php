@@ -4,7 +4,7 @@ error_reporting(E_ERROR);
 date_default_timezone_set('PRC');
 
 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-    die ('Your PHP Version is ' . PHP_VERSION . ', But WeiPHP require PHP > 5.3.0 !');
+    die ('Your PHP Version is ' . PHP_VERSION . ', But fw require PHP > 5.3.0 !');
 }
 
 
@@ -23,8 +23,8 @@ class core
             $params = $sel_result[0];
             $sel_res = $dbConnection->prepare('UPDATE contract SET `minutePerPeriod` = :minutePerPeriod, `unitPrice` = :unitPrice WHERE `contractId` = :contractId');
             $up_result = $sel_res->execute(array(
-                ':minutePerPeriod' => $params['minutePerPeriod'],
-                ':unitPrice' => $params['unitPrice'],
+                ':minutePerPeriod' => $request_data['minutePerPeriod'],
+                ':unitPrice' => $request_data['unitPrice'],
                 ':contractId' => $params['contractId']
             ));
             if ($up_result) {
@@ -34,7 +34,7 @@ class core
             }
         }
 
-        $sel_res = $dbConnection->prepare("INSERT INTO `contract` (`id`, `contractId`, `minutePerPeriod`, `unitPrice`, `create_time`, `update_time`) VALUES ('', ':contractId', ':minutePerPeriod', ':unitPrice', ':create_time', ':update_time')");
+        $sel_res = $dbConnection->prepare("INSERT INTO `contract` (`id`, `contractId`, `minutePerPeriod`, `unitPrice`, `create_time`, `update_time`) VALUES ('', :contractId, :minutePerPeriod, :unitPrice, :create_time, :update_time)");
         $ins_result = $sel_res->execute(array(
             ':contractId' => $request_data['contractId'],
             ':minutePerPeriod' => $request_data['minutePerPeriod'],
